@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include "Engine/TriggerVolume.h"
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "OpenDoor.generated.h"
@@ -24,6 +24,11 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+private:
+	UPROPERTY(EditAnywhere)
+	ATriggerVolume* PressurePlate;
+	UPROPERTY(VisibleAnywhere)
+	float OpenAngle = 90.0f;
 		
 	
 };

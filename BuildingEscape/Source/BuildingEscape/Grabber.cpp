@@ -4,6 +4,8 @@
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "DrawDebugHelpers.h"
+#include "Components/PrimitiveComponent.h"
+
 
 
 // Sets default values for this component's properties
@@ -53,19 +55,41 @@ void UGrabber::Grab()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grab pressed"));
 
-	GetFirstPhysicsBodyInReach();
+	FHitResult HitResult = GetFirstPhysicsBodyInReach();
+	UPrimitiveComponent* ComponentToGrab = HitResult.GetComponent();
+	AActor* ActorHit = HitResult.GetActor();
 
+	if (ActorHit)
+	{
+		PhysicsHandle->GrabComponentAtLocationWithRotation(
+			ComponentToGrab,
+			NAME_None,
+			ComponentToGrab->GetOwner()->GetActorLocation(),
+			ComponentToGrab->GetOwner()->GetActorRotation());
+	}
 }
 
 void UGrabber::Release()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grab released"));
+	PhysicsHandle->ReleaseComponent();
 }
 
 // Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	FVector PlayerViewPointLocation;
+	FRotator PlayerViewPointRotation;
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(PlayerViewPointLocation, PlayerViewPointRotation);
+
+	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
+
+	if (PhysicsHandle->GrabbedComponent)
+	{
+		PhysicsHandle->SetTargetLocation(LineTraceEnd);
+	}
 
 }
 
@@ -85,6 +109,6 @@ FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s"), *(ActorHit->GetName()));
 	}
-	return FHitResult();
+	return Hit;
 }
 

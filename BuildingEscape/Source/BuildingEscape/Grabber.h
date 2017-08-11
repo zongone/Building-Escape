@@ -28,6 +28,9 @@ public:
 
 	FHitResult GetFirstPhysicsBodyInReach();
 
+	FVector GetReachLineStart();
+	FVector GetReachLineEnd();
+
 private:
 	float Reach = 100.f;		
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
@@ -37,4 +40,6 @@ private:
 	void SetupInputComponent();
 	void Grab();
 	void Release();
+	FVector PlayerViewPointLocation;
+	FRotator PlayerViewPointRotation;
 };

@@ -7,4 +7,5 @@ BuildingEscape/Content/StarterContent/Textures
 BuildingEscape/Content/StarterContent/HDRI
 *.VC.db
 *.suo
-BuildingEscape/BuildingEscape.VC.VC.opendb
+*.VC.opendb
+*.sln

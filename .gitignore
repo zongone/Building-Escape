@@ -3,8 +3,11 @@
 */DerivedDataCache
 */Intermediate/
 */Saved
+*_BuiltData.uasset
 BuildingEscape/Content/StarterContent/Textures
 BuildingEscape/Content/StarterContent/HDRI
+
+*/.vs
 *.VC.db
 *.suo
 *.VC.opendb
